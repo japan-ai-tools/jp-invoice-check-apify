@@ -1,0 +1,13 @@
+{
+  "actorSpecification": 1,
+  "name": "jp-invoice-check",
+  "title": "JP Invoice Check (Japanese qualified invoice checker, MCP)",
+  "description": "Checks a Japanese qualified invoice (適格請求書): the six required items and consumption tax rounded once per rate, not per line. MCP server for AI agents.",
+  "version": "0.2",
+  "buildTag": "latest",
+  "dockerfile": "../Dockerfile",
+  "usesStandbyMode": true,
+  "webServerMcpPath": "/mcp",
+  "minMemoryMbytes": 128,
+  "maxMemoryMbytes": 256
+}
