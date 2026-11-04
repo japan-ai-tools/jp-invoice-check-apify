@@ -1,0 +1,8 @@
+{
+  "title": "JP Invoice Check",
+  "description": "This Actor runs as an MCP server in Standby mode: connect your AI agent to the Standby URL + /mcp and call the jp_invoice_check tool with an invoice. No input is needed to start it.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {},
+  "required": []
+}
