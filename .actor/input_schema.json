@@ -1,8 +1,68 @@
 {
   "title": "JP Invoice Check",
-  "description": "This Actor runs as an MCP server in Standby mode: connect your AI agent to the Standby URL + /mcp and call the jp_invoice_check tool with an invoice. No input is needed to start it.",
+  "description": "Two ways to use it. (1) MCP server for AI agents in Standby mode: connect to the Standby URL + /mcp and call jp_invoice_check. (2) A normal run: put invoices in `invoices` and get one result per invoice in the dataset. With no invoices, one built-in sample is checked for free.",
   "type": "object",
   "schemaVersion": 1,
-  "properties": {},
+  "properties": {
+    "invoices": {
+      "title": "Invoices",
+      "type": "array",
+      "editor": "json",
+      "description": "A list of invoices (JSON). Each one: issuer {name, registration_number}, date, buyer {name}, price_basis (exclusive|inclusive), items [{description, amount, rate, reduced}], totals [{rate, amount, tax}]. Leave empty to check one built-in sample (not charged). Up to 1,000 per run; each checked invoice is one `invoice-checked` event.",
+      "prefill": [
+        {
+          "issuer": {
+            "name": "株式会社サンプル商事",
+            "registration_number": "T7123456789012"
+          },
+          "date": "2026-10-28",
+          "buyer": {
+            "name": "株式会社テスト"
+          },
+          "price_basis": "exclusive",
+          "items": [
+            {
+              "description": "コピー用紙",
+              "amount": 1999,
+              "rate": 10
+            },
+            {
+              "description": "※ お茶",
+              "amount": 1234,
+              "rate": 8,
+              "reduced": true
+            }
+          ],
+          "totals": [
+            {
+              "rate": 10,
+              "amount": 1999,
+              "tax": 199
+            },
+            {
+              "rate": 8,
+              "amount": 1234,
+              "tax": 98
+            }
+          ]
+        }
+      ]
+    },
+    "role": {
+      "title": "Role",
+      "type": "string",
+      "editor": "select",
+      "enum": [
+        "issue",
+        "receive"
+      ],
+      "enumTitles": [
+        "issue: invoices you send (rule mismatch is an error)",
+        "receive: invoices you got (mismatch is a warning)"
+      ],
+      "default": "issue",
+      "description": "issue = invoices you send; receive = invoices from a supplier."
+    }
+  },
   "required": []
 }
