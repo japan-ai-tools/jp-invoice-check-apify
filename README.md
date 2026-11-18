@@ -23,6 +23,19 @@ Tools:
 
 Only successful `jp_invoice_check` calls are charged. Errors and the other tools are free.
 
+## Run it as a normal Actor run (batch)
+
+Put invoices in the `invoices` input (JSON list) and start a normal run from Console, the API or a schedule.
+Each invoice becomes one dataset item with `ok`, the named errors and warnings (English and Japanese), and the checker version.
+With no invoices, one built-in sample is checked and **not charged** (this is also what Apify's daily test runs).
+Each checked invoice from your input is one `invoice-checked` event ($2.00 / 1,000). A bad input fails the run before anything is charged.
+
+Example result item (shortened):
+
+```json
+{"ok": false, "errors": [{"level": "error", "code": "E_TAX_MISMATCH", "field": "totals[10].tax", "message": "10% tax 205 does not match: expected 199 (floor), 200 (half_up), 200 (ceil).", "message_ja": "10%の税額 205 が合いません。正しくは 199(floor), 200(half_up), 200(ceil)。"}], "warnings": [], "index": 1, "sample": false}
+```
+
 ## Run it yourself for free
 
 The same checker is open source (MIT): https://github.com/japan-ai-tools/jp-invoice-check
