@@ -132,6 +132,11 @@ def main(argv=None):
     if on_apify:
         from .apify_charge import charge_from_env
         charge = charge_from_env()
+        from . import batch
+        if not batch.is_standby():
+            # A normal run (Console, API, schedule, Apify's daily test): check the input invoices, write results, exit.
+            batch.run(charge=charge)
+            return
     httpd = serve(host, port, charge)
     sys.stderr.write(f"jp-invoice-check {__version__} MCP over HTTP on http://{host}:{port}{MCP_PATH}\n")
     try:
